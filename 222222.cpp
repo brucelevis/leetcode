@@ -119,6 +119,6 @@ main(){
         cout << endl;
         
     }
-    
+    test 
     return 0;
 }
