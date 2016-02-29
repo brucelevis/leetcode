@@ -1,44 +1,45 @@
 /*
-±àÒë»·¾³CFree 5.0
-²©¿ÍµØÖ·£ºhttp://blog.csdn.net/Snowwolf_Yang
+åšå®¢åœ°å€ï¼šhttp://blog.csdn.net/Snowwolf_Yang
 */
 #include <iostream>
 #include <vector>
 #include <map>
+
 using namespace std;
-	
+
 /*
-Ë¼Â·×öÒ»¸ö´Ó<int,int>map£¬¿ªÊ¼Ê±val¶¼ÊÇ0
-´ÓÍ·¿ªÊ¼±éÀúÊı¾İ 
-key¾ÍÊÇÒÑ¾­É¨Ãè¹ıµÄÕûÊı£¬valÊÇ±»É¨Ãè¹ıµÄÕûÊıµÄindex+1£¨ÒòÎªÊä³öÒªÇóÊı¾İ´Ó1¿ªÊ¼£© 
-¸´ÔÓ¶ÈÎªO£¨n£© 
+æ€è·¯åšä¸€ä¸ªä»<int,int>mapï¼Œå¼€å§‹æ—¶valéƒ½æ˜¯0
+ä»å¤´å¼€å§‹éå†æ•°æ®
+keyå°±æ˜¯å·²ç»æ‰«æè¿‡çš„æ•´æ•°ï¼Œvalæ˜¯è¢«æ‰«æè¿‡çš„æ•´æ•°çš„index+1ï¼ˆå› ä¸ºè¾“å‡ºè¦æ±‚æ•°æ®ä»1å¼€å§‹ï¼‰
+å¤æ‚åº¦ä¸ºOï¼ˆnï¼‰
 */
-#if 1//map·¨ 
+#if 1//map
+
 class Solution {
-public:
+  public:
     vector<int> twoSum(vector<int> &numbers, int target) {
-        map<int,int> mp;
-        vector<int> out;
-		int i = 0, size = numbers.size();
-		for(i = 0;i<size;i++)
-		{
-			if(mp.count(target-numbers[i]) != 0)		//ÅĞ¶Ï target-numbers[i]ÊÇ·ñÒÑ¾­ÔÚmapÖĞ 
-			{
-				//printf("***mp[%d] = %d\n",numbers[i],i+1);				
-				out.push_back(mp[target-numbers[i]]);	//·µ»Ø 
-				out.push_back(i+1);
-				return out;
-			}
-			else										//²»´æÔÚ¾ÍÔÚmapÖĞÌí¼ÓÏî 
-			{
-				mp[numbers[i]] = i+1;//key = numbers[i],val=index+1
-				//printf("mp[%d] = %d\n",numbers[i],i+1);
-			}
-		}
-		return out;	 
+      map<int, int> mp;
+      vector<int> out;
+      int i = 0, size = numbers.size();
+      for (i = 0; i < size; i++) {
+        if (mp.count(target - numbers[i]) != 0)        //ï¿½Ğ¶ï¿½ target-numbers[i]ï¿½Ç·ï¿½ï¿½Ñ¾ï¿½ï¿½ï¿½mapï¿½ï¿½
+        {
+          //printf("***mp[%d] = %d\n",numbers[i],i+1);
+          out.push_back(mp[target - numbers[i]]);    //ï¿½ï¿½ï¿½ï¿½
+          out.push_back(i + 1);
+          return out;
+        }
+        else                                        //ï¿½ï¿½ï¿½ï¿½ï¿½Ú¾ï¿½ï¿½ï¿½mapï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        {
+          mp[numbers[i]] = i + 1;//key = numbers[i],val=index+1
+          //printf("mp[%d] = %d\n",numbers[i],i+1);
+        }
+      }
+      return out;
     }
 };
-#elif 0//ÅÅĞò·¨   -
+
+#elif 0//æ’åºæ³•
 struct Node
 {
     int num, pos;
@@ -92,31 +93,31 @@ public:
 #elif 1
 class Solution {
 public:
-	struct Node
-	{
-		int num, idx;
-		Node(int _num = 0, int _idx = 0):num(_num),idx(_idx){}
-		bool operator < (const Node& orh) const
-		{   
-			if(num == orh.num)
-				return idx < orh.idx;
-			else return num < orh.num;
-		}
-	};
+    struct Node
+    {
+        int num, idx;
+        Node(int _num = 0, int _idx = 0):num(_num),idx(_idx){}
+        bool operator < (const Node& orh) const
+        {
+            if(num == orh.num)
+                return idx < orh.idx;
+            else return num < orh.num;
+        }
+    };
     vector<int> twoSum(vector<int> &numbers, int target) {
         // Start typing your C/C++ solution below
         // DO NOT write int main() function
-        
+
         //step 0. get an arry record the num and index of every element
-        //step 1. sort the array and then 
+        //step 1. sort the array and then
         //step 2. enumerate every element numbers[i] in the array
         //step 3. using binary search to find if there is an element equal to target-numbers[i]
         //Time complexity Analysis: O(nlgn)
-        
+
         vector<Node> nodes(numbers.size());//step 0
         for(int i = 0; i < numbers.size(); ++i)
             nodes[i] = Node(numbers[i], i);
-            
+
         sort(nodes.begin(), nodes.end());//step 1
         for(int i = 0; i < nodes.size(); ++i)//step 2
         {
@@ -139,11 +140,11 @@ public:
             }
         }
     }
-}; 
-#elif 1//±©Á¦Çî¾Ù ----³¬Ê±£¬¹ı²»È¥ 
+};
+#elif 1//æš´åŠ›ç©·ä¸¾ ----è¶…æ—¶ï¼Œè¿‡ä¸å»
 class Solution {
 public:
-    vector<int> twoSum(vector<int> &numbers, int target) 
+    vector<int> twoSum(vector<int> &numbers, int target)
     {
         vector<int>output;
         int i,j;
@@ -162,49 +163,44 @@ public:
         return output;
     }
 };
-#endif 
+#endif
 
-void test0()
-{
-	int arr[] = {0,1,2,3,4,5,6,7,8,9};
-	vector<int> numbers (arr, arr + sizeof(arr) / sizeof(int) );
-	Solution so;
-	vector<int> out = so.twoSum(numbers, 7);
-	if(out.size() >= 2 && arr[out[0]-1] + arr[out[1]-1] == 7 && out[0] < out[1])
-	{
-		printf("arr[%d] = %d, arr[%d] = %d\n",out[0]-1,arr[out[0]-1],out[1]-1,arr[out[1]-1]);
-		printf("------------------------passed\n");
-	}
-	else
-	{
-		printf("arr[%d] = %d, arr[%d] = %d\n",out[0]-1,arr[out[0]-1],out[1]-1,arr[out[1]-1]);
-		printf("------------------------failed\n");
-	}
-}
-void test1()
-{
-	int arr[] = {3,2,4};
-	vector<int> numbers (arr, arr + sizeof(arr) / sizeof(int) );
-	Solution so;
-	vector<int> out = so.twoSum(numbers, 6);
-	if(out.size() == 2 && arr[out[0]-1] + arr[out[1]-1] == 6 && out[0] < out[1])
-	{
-		printf("arr[%d] = %d, arr[%d] = %d\n",out[0]-1,arr[out[0]-1],out[1]-1,arr[out[1]-1]);
-		printf("------------------------passed\n");
-	}
-	else
-	{
-		printf("arr[%d] = %d, arr[%d] = %d\n",out[0]-1,arr[out[0]-1],out[1]-1,arr[out[1]-1]);
-		printf("------------------------failed\n");
-	}
-}
-int main()
-{
-	test0();
-	test1();
-	
-	return 0;
+void test0() {
+  int arr[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+  vector<int> numbers(arr, arr + sizeof(arr) / sizeof(int));
+  Solution so;
+  vector<int> out = so.twoSum(numbers, 7);
+  if (out.size() >= 2 && arr[out[0] - 1] + arr[out[1] - 1] == 7 && out[0] < out[1]) {
+    printf("arr[%d] = %d, arr[%d] = %d\n", out[0] - 1, arr[out[0] - 1], out[1] - 1, arr[out[1] - 1]);
+    printf("------------------------passed\n");
+  }
+  else {
+    printf("arr[%d] = %d, arr[%d] = %d\n", out[0] - 1, arr[out[0] - 1], out[1] - 1, arr[out[1] - 1]);
+    printf("------------------------failed\n");
+  }
 }
 
- 
+void test1() {
+  int arr[] = {3, 2, 4};
+  vector<int> numbers(arr, arr + sizeof(arr) / sizeof(int));
+  Solution so;
+  vector<int> out = so.twoSum(numbers, 6);
+  if (out.size() == 2 && arr[out[0] - 1] + arr[out[1] - 1] == 6 && out[0] < out[1]) {
+    printf("arr[%d] = %d, arr[%d] = %d\n", out[0] - 1, arr[out[0] - 1], out[1] - 1, arr[out[1] - 1]);
+    printf("------------------------passed\n");
+  }
+  else {
+    printf("arr[%d] = %d, arr[%d] = %d\n", out[0] - 1, arr[out[0] - 1], out[1] - 1, arr[out[1] - 1]);
+    printf("------------------------failed\n");
+  }
+}
+
+int main() {
+  test0();
+  test1();
+
+  return 0;
+}
+
+
 
