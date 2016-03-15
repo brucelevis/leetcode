@@ -1,6 +1,7 @@
 #include <iostream>
 #include <stack>
-#include <queue> 
+#include <queue>
+
 using namespace std;
 
 /**
@@ -13,230 +14,231 @@ using namespace std;
  * };
  */
 struct TreeNode {
-	int val;
-	TreeNode *left;
-	TreeNode *right;
-	TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- };
-#if 0//µİ¹é·¨ 
-class Solution {
-public:
-    int maxDepth(TreeNode *root) {
-        if(root == NULL)
-        	return 0;
-       	int left = maxDepth(root->left);
-       	int right = maxDepth(root->right);
-       	if(left > right)
-       		return left + 1;
-  		else
-  			return right + 1;        	
-    }
-};
-#elif 0//Ñ­»··¨  Õ» Éî¶ÈÓÅÏÈ 
-class Solution {
-public:
-    int maxDepth(TreeNode *root) {
-        if(root == NULL)
-        	return 0;
-       	stack<TreeNode*> treeStk;
-       	treeStk.push(root);
-		int maxhigh = 1, tmphigh = 1;
-		TreeNode *preNode = root;		//¼ÇÂ¼ÉÏÒ»¸ö±»±éÀúµÄ½áµã   ³õÊ¼ÖµÒªÊÇroot 
-		while(!treeStk.empty())
-		{
-			TreeNode *topNode = treeStk.top();
-			//printf("top = %d high = %d\n",topNode->val,tmphigh);
-			if(topNode->left == NULL && topNode->right == NULL/*Ò¶×Ó½áµã*/)
-			{
-				if(tmphigh > maxhigh)	maxhigh = tmphigh;
-				treeStk.pop();
-				preNode = topNode; 
-				continue;				 
-			}
-			if(topNode->right == preNode || topNode->left == preNode)//º¢×Ó½áµãÒÑ¾­±»±éÀú 
-			{
-				tmphigh--;
-				treeStk.pop();
-				preNode = topNode;
-				continue;	
-			}
-			if(topNode->right != NULL) treeStk.push(topNode->right);
-			if(topNode->left != NULL) treeStk.push(topNode->left);
-			tmphigh++;//¸ß¶È¼Ó1	
-		}
-		return maxhigh;
-    }
-};
-#elif 1 //¶ÓÁĞ¹ã¶ÈÓÅÏÈ 
-class Solution {
-public:
-    //¶ş²æÊ÷×î´óÉî¶È£¨²ã´Î±éÀú£¬±éÀúÒ»²ã¸ß¶È¼Ó1£©
-    int maxDepth(TreeNode *root) {
-        int height = 0,rowCount = 1;
-        if(root == NULL){
-            return 0;
-        }
-        //´´½¨¶ÓÁĞ
-        queue<TreeNode*> queue;
-        //Ìí¼Ó¸ù½Úµã
-        queue.push(root);
-        //²ã´Î±éÀú
-        while(!queue.empty()){
-            //¶ÓÁĞÍ·ÔªËØ
-            TreeNode *node = queue.front();
-            //³ö¶ÓÁĞ
-            queue.pop();
-            //Ò»²ãµÄÔªËØ¸öÊı¼õ1£¬Ò»²ã±éÀúÍê¸ß¶È¼Ó1
-            rowCount --;
-            if(node->left){
-                queue.push(node->left);
-            }
-            if(node->right){
-                queue.push(node->right);
-            }
-            //Ò»²ã±éÀúÍê
-            if(rowCount == 0){
-                //¸ß¶È¼Ó1
-                height++;
-                //ÏÂÒ»²ãÔªËØ¸öÊı
-                rowCount = queue.size();
-            }
-        }
-        return height;
-    }
- 
-}; 
-#endif 
+   int val;
+   TreeNode *left;
+   TreeNode *right;
 
-/*¹¦ÄÜ²âÊÔ*/
-void test0()
-{
+   TreeNode(int x) : val(x), left(NULL), right(NULL) { }
+};
+
+#if 0//é€’å½’æ³•
+class Solution {
+public:
+    int maxDepth(TreeNode *root) {
+        if(root == NULL)
+          return 0;
+         int left = maxDepth(root->left);
+         int right = maxDepth(root->right);
+         if(left > right)
+           return left + 1;
+      else
+        return right + 1;
+    }
+};
+#elif 0//å¾ªç¯æ³•  æ ˆ æ·±åº¦ä¼˜å…ˆ
+class Solution {
+public:
+    int maxDepth(TreeNode *root) {
+        if(root == NULL)
+          return 0;
+         stack<TreeNode*> treeStk;
+         treeStk.push(root);
+    int maxhigh = 1, tmphigh = 1;
+    TreeNode *preNode = root;  //è®°å½•ä¸Šä¸€ä¸ªè¢«éå†çš„ç»“ç‚¹   åˆå§‹å€¼è¦æ˜¯root
+    while(!treeStk.empty())
+    {
+      TreeNode *topNode = treeStk.top();
+      //printf("top = %d high = %d\n",topNode->val,tmphigh);
+      if(topNode->left == NULL && topNode->right == NULL)  /*å¶å­ç»“ç‚¹*/
+      {
+        if(tmphigh > maxhigh)	maxhigh = tmphigh;
+        treeStk.pop();
+        preNode = topNode;
+        continue;
+      }
+      if(topNode->right == preNode || topNode->left == preNode)  //å­©å­ç»“ç‚¹å·²ç»è¢«éå†
+      {
+        tmphigh--;
+        treeStk.pop();
+        preNode = topNode;
+        continue;
+      }
+      if(topNode->right != NULL) treeStk.push(topNode->right);
+      if(topNode->left != NULL) treeStk.push(topNode->left);
+      tmphigh++;//ï¿½ß¶È¼ï¿½1
+    }
+    return maxhigh;
+    }
+};
+#elif 1 //é˜Ÿåˆ—å¹¿åº¦ä¼˜å…ˆ
+
+class Solution {
+  public:
+    //äºŒå‰æ ‘æœ€å¤§æ·±åº¦ï¼ˆå±‚æ¬¡éå†ï¼Œéå†ä¸€å±‚é«˜åº¦åŠ 1ï¼‰
+    int maxDepth(TreeNode *root) {
+      int height = 0,rowCount = 1;
+      if(root == NULL){
+        return 0;
+      }
+      //åˆ›å»ºé˜Ÿåˆ—
+      queue<TreeNode*> queue;
+      //æ·»åŠ æ ¹èŠ‚ç‚¹
+      queue.push(root);
+      //å±‚æ¬¡éå†
+      while(!queue.empty()){
+        //é˜Ÿåˆ—å¤´å…ƒç´ 
+        TreeNode *node = queue.front();
+        //å‡ºé˜Ÿåˆ—
+        queue.pop();
+        //ä¸€å±‚çš„å…ƒç´ ä¸ªæ•°å‡1ï¼Œä¸€å±‚éå†å®Œé«˜åº¦åŠ 1
+        rowCount --;
+        if(node->left){
+          queue.push(node->left);
+        }
+        if(node->right){
+          queue.push(node->right);
+        }
+        //ä¸€å±‚éå†å®Œ
+        if(rowCount == 0){
+          //é«˜åº¦åŠ 1
+          height++;
+          //ä¸‹ä¸€å±‚å…ƒç´ ä¸ªæ•°
+          rowCount = queue.size();
+        }
+      }
+      return height;
+    }
+
+};
+
+#endif
+
+/*åŠŸèƒ½æµ‹è¯•*/
+void test0() {
 /*
 				1
 		2				3
 	4		5		6		7
-*/ 
-	TreeNode node1(1);
-	TreeNode node2(2);
-	TreeNode node3(3);
-	TreeNode node4(4);
-	TreeNode node5(5);
-	TreeNode node6(6);
-	TreeNode node7(7);
-	node1.left = &node2;
-	node1.right = &node3;
-	
-	node2.left = &node4;
-	node2.right = &node5;
-	
-	node3.left = &node6;
-	node3.right = &node7;
-	
-	Solution so;
-	int high = so.maxDepth(&node1);
-	
+*/
+  TreeNode node1(1);
+  TreeNode node2(2);
+  TreeNode node3(3);
+  TreeNode node4(4);
+  TreeNode node5(5);
+  TreeNode node6(6);
+  TreeNode node7(7);
+  node1.left = &node2;
+  node1.right = &node3;
 
-	if(high == 3)
-		printf("---------------------passed\n");
-	else
-		printf("---------------------failed\n");	
+  node2.left = &node4;
+  node2.right = &node5;
+
+  node3.left = &node6;
+  node3.right = &node7;
+
+  Solution so;
+  int high = so.maxDepth(&node1);
+
+
+  if (high == 3)
+    printf("---------------------passed\n");
+  else
+    printf("---------------------failed\n");
 }
 
-/*¹¦ÄÜ²âÊÔ*/
-void test1()
-{
+/*åŠŸèƒ½æµ‹è¯•*/
+void test1() {
 /*
 				1
-		2	
-	3	
-*/ 
-	TreeNode node1(1);
-	TreeNode node2(2);
-	TreeNode node3(3);
-	
-	node1.left = &node2;
-	
-	node2.left = &node3;
-	
-	Solution so;
-	int high = so.maxDepth(&node1);
-	
+		2
+	3
+*/
+  TreeNode node1(1);
+  TreeNode node2(2);
+  TreeNode node3(3);
 
-	if(high == 3)
-		printf("---------------------passed\n");
-	else
-		printf("---------------------failed\n");	
+  node1.left = &node2;
+
+  node2.left = &node3;
+
+  Solution so;
+  int high = so.maxDepth(&node1);
+
+
+  if (high == 3)
+    printf("---------------------passed\n");
+  else
+    printf("---------------------failed\n");
 }
 
-/*¹¦ÄÜ²âÊÔ*/
-void test2()
-{
+/*åŠŸèƒ½æµ‹è¯•*/
+void test2() {
 /*
 						1
 			2					3
 	4				5
 				6
 					7
-*/ 
-	TreeNode node1(1);
-	TreeNode node2(2);
-	TreeNode node3(3);
-	TreeNode node4(4);
-	TreeNode node5(5);
-	TreeNode node6(6);
-	TreeNode node7(7);
-	node1.left = &node2;
-	node1.right = &node3;
-	
-	node2.left = &node4;
-	node2.right = &node5;
-	
-	node5.left = &node6;
-	node6.right = &node7;
-	
-	Solution so;
-	int high = so.maxDepth(&node1);
-	
+*/
+  TreeNode node1(1);
+  TreeNode node2(2);
+  TreeNode node3(3);
+  TreeNode node4(4);
+  TreeNode node5(5);
+  TreeNode node6(6);
+  TreeNode node7(7);
+  node1.left = &node2;
+  node1.right = &node3;
 
-	if(high == 5)
-		printf("---------------------passed\n");
-	else
-		printf("---------------------failed\n");	
-}
-/*¹¦ÄÜ²âÊÔ*/
-void test3()
-{
-	Solution so;
-	int high = so.maxDepth(NULL);
-	
+  node2.left = &node4;
+  node2.right = &node5;
 
-	if(high == 0)
-		printf("---------------------passed\n");
-	else
-		printf("---------------------failed\n");	
+  node5.left = &node6;
+  node6.right = &node7;
+
+  Solution so;
+  int high = so.maxDepth(&node1);
+
+
+  if (high == 5)
+    printf("---------------------passed\n");
+  else
+    printf("---------------------failed\n");
 }
-/*¹¦ÄÜ²âÊÔ*/
-void test4()
-{
+
+/*åŠŸèƒ½æµ‹è¯•*/
+void test3() {
+  Solution so;
+  int high = so.maxDepth(NULL);
+
+
+  if (high == 0)
+    printf("---------------------passed\n");
+  else
+    printf("---------------------failed\n");
+}
+
+/*åŠŸèƒ½æµ‹è¯•*/
+void test4() {
 /*
 						1
-*/ 
-	TreeNode node1(1);
-	Solution so;
-	int high = so.maxDepth(&node1);
-	
+*/
+  TreeNode node1(1);
+  Solution so;
+  int high = so.maxDepth(&node1);
 
-	if(high == 1)
-		printf("---------------------passed\n");
-	else
-		printf("---------------------failed\n");	
+
+  if (high == 1)
+    printf("---------------------passed\n");
+  else
+    printf("---------------------failed\n");
 }
-int main()
-{
-	test0();
-	test1();
-	test2();
-	test3();
-	test4();
-	return 0;
+
+int main() {
+  test0();
+  test1();
+  test2();
+  test3();
+  test4();
+  return 0;
 }
