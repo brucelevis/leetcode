@@ -1,165 +1,120 @@
-/*
-±àÒë»·¾³CFree 5.0 
-*/
 #include <iostream>
 #include <vector>
 #include <stack>
+#include "LeetCodeUtils.h"
+
 using namespace std;
 
 
-#define METHOD 1 //1- µÝ¹é·¨
-//#define METHOD 2//2- ¶ÑÕ»·½·¨1 
-//#define METHOD 3//3- ¶ÑÕ»·½·¨3 
-
-
- 
-
-/**
- * Definition for binary tree
- */
-struct TreeNode {
-    int val;
-     TreeNode *left;
-     TreeNode *right;
-     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- };
-void printVector(vector<int> in,char* name)
-{
-	printf("%s size=%d\n",name,in.size());	
-	for(int i = 0;i< in.size();i++)
-    {
-    	printf("%d  ",in[i]);
-	}
-	printf("\n");
-}
-#if METHOD == 1
-/*
-ÕâÀï¶ÔvectorµÄÊ¹ÓÃ·½·¨ÒªµÃµ±£¬°ÑÁ½¸övectorÆ´ÔÚÒ»ÆðµÄ·½·¨ÊÇ
-°Ñout1£¬out2£¬Æ´³É£¨out1£¬out2£© 
-out2.insert(out2.begin(),out1.begin(),out1.end());//out1,out2Ë³Ðò²»ÒªÅª´í 
-*/
-class Solution {
-public:
+class Solution1 {
+  public:
     vector<int> postorderTraversal(TreeNode *root) {
-        vector<int> out;
-        if(root == NULL)
-        	return out;
-        
-        vector<int> out1 = postorderTraversal(root->left);
-        vector<int> out2 = postorderTraversal(root->right);
-        
-        out.insert(out.begin(),root->val); 					//ÖÐ 
-        out.insert(out.begin(),out2.begin(),out2.end());	//ÓÒ 
-        out.insert(out.begin(),out1.begin(),out1.end());	//×ó 
+      vector<int> out;
+      if (root == NULL)
         return out;
+
+      vector<int> out1 = postorderTraversal(root->left);
+      vector<int> out2 = postorderTraversal(root->right);
+
+      out.insert(out.begin(), root->val);          //ï¿½ï¿½
+      out.insert(out.begin(), out2.begin(), out2.end());  //ï¿½ï¿½
+      out.insert(out.begin(), out1.begin(), out1.end());  //ï¿½ï¿½
+      return out;
     }
-};
-#elif METHOD == 2
-//¶ÑÕ»·½·¨ 
-//Õâ¸ö·½·¨²»Ì«ºÃÀí½â£¬ÐèÒª¼ÓÒÔÑÐ¾¿ 
-class Solution {
-public:
-    vector<int> postorderTraversal(TreeNode *root) {
-        vector<int> out;
-        if(root == NULL)
-        	return out;
-       	TreeNode *head = root;					//¾ÍÊÇ¼ÇÂ¼ÉÏÒ»¸öµ¯³öµÄ½áµã 
-       	treenodeStack.push(root);
-        while(!treenodeStack.empty())
-		{
-			TreeNode *cur = treenodeStack.top();//Ôö¼ÓÒ»¸ö¼ÇÂ¼µã
-			
-			if(cur->left == head || cur->right== head ||(cur->left == NULL && cur->right == NULL))//Õâ¸öÌõ¼þºÜ¹Ø¼ü 
-			{
-				treenodeStack.pop();
-				out.push_back(cur->val);
-				head = cur;
-				//printf("pop = %d\n",cur->val);
-				//system("pause");
-			} 
-			else
-			{
-				if(cur->right != NULL)	treenodeStack.push(cur->right)/*,printf("lpush = %d\n",cur->right->val)*/;
-				if(cur->left != NULL)	treenodeStack.push(cur->left)/*,printf("rpush = %d\n",cur->left->val)*/;
-			}
-		} 
+
+    vector<int> postorderTraversal1(TreeNode *root) {
+      vector<int> out;
+      if (root == NULL)
         return out;
-    }
-private:
-	stack<TreeNode*> treenodeStack; 
-};
-#elif METHOD == 3
-/*
-Õâ¸ö·½·¨ÔÞÑ½£¡×Ô¼º->ÓÒ¶ù×Ó->×ó¶ù×ÓË³ÐòÊä³ö£¬×îºó×öÒ»ÏÂÄæÐò¾ÍºÃ 
-*/
-class Solution {
-public:
-    vector<int> postorderTraversal(TreeNode *root) {
-        vector<int> res;
-        if(root == NULL)
-            return res;
-        vector<TreeNode*> stc;
-        stc.push_back(root);
-        while(!stc.empty()) {
-            TreeNode* node = stc.back();
-            res.push_back(node->val);
-            stc.pop_back();
-            if(node->left != NULL) {
-                stc.push_back(node->left);
-            }
-            if(node->right != NULL) {
-                stc.push_back(node->right);
-            }
+      TreeNode *head = root;          //ï¿½ï¿½ï¿½Ç¼ï¿½Â¼ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä½ï¿½ï¿½
+      treenodeStack.push(root);
+      while (!treenodeStack.empty()) {
+        TreeNode *cur = treenodeStack.top();//ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½Â¼ï¿½ï¿½
+
+        if (cur->left == head || cur->right == head || (cur->left == NULL && cur->right == NULL))//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü¹Ø¼ï¿½
+        {
+          treenodeStack.pop();
+          out.push_back(cur->val);
+          head = cur;
+          //printf("pop = %d\n",cur->val);
+          //system("pause");
         }
-        reverse(res.begin(), res.end());
-        return res;
+        else {
+          if (cur->right != NULL) treenodeStack.push(cur->right)/*,printf("lpush = %d\n",cur->right->val)*/;
+          if (cur->left != NULL) treenodeStack.push(cur->left)/*,printf("rpush = %d\n",cur->left->val)*/;
+        }
+      }
+      return out;
     }
-}; 
-#endif
 
-/*¹¦ÄÜ²âÊÔ*/
-void test0()
-{
+  private:
+    stack<TreeNode *> treenodeStack;
+};
+
+class Solution {
+  public:
+    vector<int> postorderTraversal(TreeNode *root) {
+      vector<int> out;
+      if (root == NULL)
+        return out;
+
+      stack<TreeNode*> treeStack;
+      treeStack.push(root);
+      TreeNode* tmp = NULL;
+      while (!treeStack.empty()) {
+        TreeNode* top = treeStack.top();
+        if ((top->left == NULL && top->right == NULL) || top->left == tmp || top->right == tmp) {
+          out.push_back(top->val);
+          treeStack.pop();
+          tmp = top;
+        } else {
+          if (top->right != NULL) treeStack.push(top->right)/*,printf("lpush = %d\n",cur->right->val)*/;
+          if (top->left != NULL) treeStack.push(top->left)/*,printf("rpush = %d\n",cur->left->val)*/;
+        }
+      }
+      return out;
+    }
+};
+
+void test0() {
 /*
 				1
 		2				3
 	4		5		6		7
-*/ 
-	TreeNode node1(1);
-	TreeNode node2(2);
-	TreeNode node3(3);
-	TreeNode node4(4);
-	TreeNode node5(5);
-	TreeNode node6(6);
-	TreeNode node7(7);
-	node1.left = &node2;
-	node1.right = &node3;
-	
-	node2.left = &node4;
-	node2.right = &node5;
-	
-	node3.left = &node6;
-	node3.right = &node7;
-	
-	Solution so;
-	vector<int> out = so.postorderTraversal(&node1);
-	
-	int tmp[7] = {4,5,2,6,7,3,1};
-	
-	int i = 0;
-	for(i = 0;i<7 && i<out.size();i++)
-	{
-		if(out[i] != tmp[i])
-		{
-			break;
-		}
-	}
-	if(i == 7)
-		printf("---------------------passed\n");
-	else
-		printf("---------------------failed\n");	
+*/
+  TreeNode node1(1);
+  TreeNode node2(2);
+  TreeNode node3(3);
+  TreeNode node4(4);
+  TreeNode node5(5);
+  TreeNode node6(6);
+  TreeNode node7(7);
+  node1.left = &node2;
+  node1.right = &node3;
+
+  node2.left = &node4;
+  node2.right = &node5;
+
+  node3.left = &node6;
+  node3.right = &node7;
+
+  Solution so;
+  vector<int> out = so.postorderTraversal(&node1);
+
+  int tmp[7] = {4, 5, 2, 6, 7, 3, 1};
+
+  int i = 0;
+  for (i = 0; i < 7 && i < out.size(); i++) {
+    if (out[i] != tmp[i]) {
+      break;
+    }
+  }
+  if (i == 7)
+    printf("---------------------passed\n");
+  else
+    printf("---------------------failed\n");
 }
-int main()
-{
-	test0();
+
+int main() {
+  test0();
 }

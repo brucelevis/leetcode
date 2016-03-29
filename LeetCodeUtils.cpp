@@ -4,7 +4,7 @@
 
 #include "LeetCodeUtils.h"
 
-void PrintVector(vector<int> vec) {
+void printVector(vector<int> vec) {
   for(int i = 0;i<vec.size();i++)
   {
     printf("%d,",vec[i]);
@@ -12,17 +12,49 @@ void PrintVector(vector<int> vec) {
   printf("\n");
 }
 
-void PrintVector(vector<int> vec, char *name) {
+void printVector(vector<int> vec, char *name) {
   printf("%s\n",name);
-  PrintVector(vec);
+  printVector(vec);
 }
 
-void PrintVector(vector<vector<int > > vec, char *name) {
+void printVector(vector<vector<int> > vec, char *name) {
   printf("%s\n",name);
   for(int i = 0;i<vec.size();i++)
   {
     printf("%3d:",i);
-    PrintVector(vec[i]);
+    printVector(vec[i]);
   }
   printf("\n");
+}
+
+void printList(ListNode *head, string name) {
+  printf("%s:", name.c_str());
+  int count = 0;
+  while (head != NULL) {
+    printf("%3d,", head->val);
+    head = head->next;
+    count++;
+  }
+  printf("\nsize=%d\n", count);
+}
+
+
+
+ListNode *listCreate(int arr[], int n) {
+  if (n <= 0)
+    return NULL;
+
+  ListNode *head = NULL, *p = NULL;
+  for (int i = 0; i < n; i++) {
+    ListNode *tmp = new ListNode(arr[i]);
+    if (head==NULL) {
+      head = tmp;
+      p=head;
+    } else {
+      p->next = tmp;
+      p = p->next;
+    }
+  }
+
+  return head;
 }
